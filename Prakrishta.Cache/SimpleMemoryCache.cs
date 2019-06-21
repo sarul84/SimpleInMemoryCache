@@ -6,6 +6,7 @@
 // <date>07/18/2018</date>
 // <summary>In-Memory cache implementation class</summary>
 // --------------------------------------------------------------------------------
+
 namespace Prakrishta.Cache
 {
     using System;
@@ -14,12 +15,12 @@ namespace Prakrishta.Cache
     using System.Linq;
     using System.Threading;
 
+
     /// <summary>
     /// Cache class to handle in-memory caching
     /// </summary>
     public sealed class SimpleMemoryCache : ICache
     {
-        #region |Private Fields|
         /// <summary>
         /// Holds all cached item details
         /// </summary>
@@ -29,9 +30,7 @@ namespace Prakrishta.Cache
         /// To detect redundant calls
         /// </summary>
         private bool disposedValue = false;
-        #endregion
 
-        #region |Public Members|
         /// <summary>
         /// Gets number of items cached
         /// </summary>
@@ -56,9 +55,7 @@ namespace Prakrishta.Cache
         /// <param name="session">Session key</param>
         /// <returns>Cached item</returns>
         public object this[string key, string session] => this.Get(key, session);
-        #endregion
 
-        #region |Interface Implementation|
         /// <summary>
         /// Method to add or update item to be cached into the cache
         /// </summary>
@@ -93,9 +90,11 @@ namespace Prakrishta.Cache
             }
 
             var cachedItemKey = new CachedItemKey(key, session);
+
             Timer timer = new Timer(new TimerCallback(TimerProc), cachedItemKey, cacheTime, TimeSpan.FromMilliseconds(-1));
 
             var addOrUpdatedValue = this.memoryCache.AddOrUpdate(cachedItemKey, value, (cacheKey, oldValue) => oldValue = value);
+
             return addOrUpdatedValue != null;
 
             void TimerProc(object state)
@@ -127,7 +126,7 @@ namespace Prakrishta.Cache
         public void ClearAll()
         {
             this.memoryCache?.Clear();
-        }        
+        }
 
         /// <summary>
         /// Dispose of the object
@@ -150,7 +149,7 @@ namespace Prakrishta.Cache
             {
                 throw new ArgumentNullException(nameof(key));
             }
-           
+
             object value = null;
 
             var cacheKey = new CachedItemKey(key, session);
@@ -160,7 +159,7 @@ namespace Prakrishta.Cache
             }
 
             return value;
-        }        
+        }
 
         /// <summary>
         /// Removes cached item from in-memory cache
@@ -177,8 +176,8 @@ namespace Prakrishta.Cache
 
             var cacheKey = new CachedItemKey(key, session);
 
-            return this.Remove(cacheKey);            
-        }        
+            return this.Remove(cacheKey);
+        }
 
         /// <summary>
         /// Removes cached item from in-memory cache
@@ -192,17 +191,15 @@ namespace Prakrishta.Cache
             }
 
             var keys = from cacheKeys in this.memoryCache
-                        where cacheKeys.Key.Key.Equals(key, StringComparison.OrdinalIgnoreCase)
-                        select cacheKeys.Key;
+                       where cacheKeys.Key.Key.Equals(key, StringComparison.OrdinalIgnoreCase)
+                       select cacheKeys.Key;
 
             foreach (var compositeKey in keys)
             {
                 this.Remove(compositeKey);
             }
         }
-        #endregion
 
-        #region |Helper Methods|
 
         /// <summary>
         /// Dispose of this class
@@ -257,6 +254,5 @@ namespace Prakrishta.Cache
 
             return value;
         }
-        #endregion
     }
 }

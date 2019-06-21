@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Prakrishta.Cache/bin/Debug/netstandard1.2
+/Prakrishta.Cache.Sample/bin/Debug/netcoreapp2.2
+/Prakrishta.Cache.Sample/obj
+/Prakrishta.Cache/obj
+/.vs
