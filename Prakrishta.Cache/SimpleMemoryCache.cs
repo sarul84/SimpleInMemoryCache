@@ -15,12 +15,12 @@ namespace Prakrishta.Cache
     using System.Linq;
     using System.Threading;
 
-
     /// <summary>
     /// Cache class to handle in-memory caching
     /// </summary>
     public sealed class SimpleMemoryCache : ICache
     {
+        #region |Private Fields|
         /// <summary>
         /// Holds all cached item details
         /// </summary>
@@ -30,7 +30,9 @@ namespace Prakrishta.Cache
         /// To detect redundant calls
         /// </summary>
         private bool disposedValue = false;
+        #endregion
 
+        #region |Public Members|
         /// <summary>
         /// Gets number of items cached
         /// </summary>
@@ -55,7 +57,9 @@ namespace Prakrishta.Cache
         /// <param name="session">Session key</param>
         /// <returns>Cached item</returns>
         public object this[string key, string session] => this.Get(key, session);
+        #endregion
 
+        #region |Interface Implementation|
         /// <summary>
         /// Method to add or update item to be cached into the cache
         /// </summary>
@@ -199,7 +203,9 @@ namespace Prakrishta.Cache
                 this.Remove(compositeKey);
             }
         }
+        #endregion
 
+        #region |Helper Methods|
 
         /// <summary>
         /// Dispose of this class
@@ -254,5 +260,6 @@ namespace Prakrishta.Cache
 
             return value;
         }
+        #endregion
     }
 }
